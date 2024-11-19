@@ -1,5 +1,6 @@
 import http from 'node:http'
 import {json} from './middlewars/json.js'
+import { routes } from './routes.js'
 
 // - Criar usuários
 // - Listagem usuários
@@ -30,12 +31,12 @@ const server = http.createServer(async (req, res) => {
 
   await json(req, res)
 
-  if (method === 'GET' && url === '/users'){
+  const route = routes.find(route => {
+    return route.method === method && route.path === url
+  })
 
-  }
-
-  if (method === 'POST' && url === '/users'){
-
+  if (route){
+    return route.handler(req, res)
   }
 
   return res.writeHead(404).end()
