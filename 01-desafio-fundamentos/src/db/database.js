@@ -18,6 +18,16 @@ export class Database {
     fs.writeFile(databasePath, JSON.stringify(this.#database))
   }
 
+  getItem(table, id){
+    const items = this.#database[table] ?? []
+
+    if(id) {
+      return  items.find(item => item.id === id)
+    }
+
+    return {}
+  }
+
   select(table, search) {
     let data = this.#database[table] ?? []
 
