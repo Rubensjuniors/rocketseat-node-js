@@ -8,6 +8,8 @@
     "start": "node build/server.js",
     "lint": "eslint src --ext .ts --fix",
     "build": "tsup src --out-dir build",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "docker:compose": "docker compose up -d",
     "prisma:migrate": "prisma migrate dev",
     "prisma:studio": "prisma studio"
@@ -17,19 +19,23 @@
   "license": "ISC",
   "devDependencies": {
     "@rocketseat/eslint-config": "2.2.2",
+    "@types/bcryptjs": "2.4.6",
     "@types/node": "22.10.1",
     "dotenv": "16.4.5",
     "eslint": "8.57.1",
     "prisma": "6.0.0",
     "tsup": "8.3.5",
     "tsx": "4.19.2",
-    "typescript": "5.3.3"
+    "typescript": "5.3.3",
+    "vite-tsconfig-paths": "5.1.3",
+    "vitest": "2.1.6"
   },
   "dependencies": {
     "@fastify/cors": "10.0.1",
     "@fastify/swagger": "9.4.0",
     "@fastify/swagger-ui": "5.1.0",
     "@prisma/client": "6.0.0",
+    "bcryptjs": "2.4.3",
     "fastify": "5.1.0",
     "fastify-type-provider-zod": "4.0.2",
     "zod": "3.23.8"
