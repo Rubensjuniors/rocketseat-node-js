@@ -7,7 +7,7 @@ import {
   serializerCompiler,
   jsonSchemaTransform,
 } from 'fastify-type-provider-zod'
-import { users } from './http/routes'
+import { appRoutes } from './http/routes'
 import { ZodError } from 'zod'
 import { env } from './env'
 
@@ -34,19 +34,17 @@ app.register(fastifySwaggerUi, {
   routePrefix: '/docs',
 })
 
-app.register(users)
+app.register(appRoutes)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
-    return reply
-    .status(400)
-    .send({
+    return reply.status(400).send({
       message: 'Validation Error',
-      issues: error.format()
+      issues: error.format(),
     })
   }
 
-  if (env.NODE_ENV !== 'production'){
+  if (env.NODE_ENV !== 'production') {
     console.error(error)
   } else {
     // TODO: Here e should log to an external tool like DataDog/NewRelic/Sentry
