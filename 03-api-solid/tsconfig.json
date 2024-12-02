@@ -10,7 +10,8 @@
 
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "__mocks__/*": ["./src/config/tests/__mocks__/*"]
     },
     "strict": true,
     "esModuleInterop": true,
