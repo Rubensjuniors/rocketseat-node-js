@@ -2,6 +2,7 @@ import { register } from '@/http/controllers/register'
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import z from 'zod'
 import { authenticate } from './controllers/authenticate'
+import { profile } from './controllers/profile'
 
 export const appRoutes: FastifyPluginAsyncZod = async (app) => {
   app.post(
@@ -42,5 +43,18 @@ export const appRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     authenticate,
+  )
+
+  /** Authenticated */
+  app.get(
+    '/me',
+    {
+      schema: {
+        tags: ['me'],
+        operationId: 'meUser',
+        description: 'get user.',
+      },
+    },
+    profile,
   )
 }
