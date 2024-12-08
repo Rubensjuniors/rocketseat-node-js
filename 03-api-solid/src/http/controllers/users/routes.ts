@@ -4,6 +4,7 @@ import z from 'zod'
 import { authenticate } from './authenticate'
 import { profile } from './profile'
 import { verifyJWT } from '../../middlewares/verify-jwt'
+import { refresh } from './refresh'
 
 export const appRoutes: FastifyPluginAsyncZod = async (app) => {
   app.post(
@@ -44,6 +45,20 @@ export const appRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     authenticate,
+  )
+  app.patch(
+    '/token/refresh',
+    {
+      schema: {
+        tags: ['users'],
+        operationId: 'refresh token User',
+        description: 'refresh token  user.',
+        response: {
+          200: z.object({ token: z.string() }),
+        },
+      },
+    },
+    refresh,
   )
 
   /** Authenticated */

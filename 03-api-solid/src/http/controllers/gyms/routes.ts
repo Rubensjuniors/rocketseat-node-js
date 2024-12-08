@@ -4,6 +4,7 @@ import { create } from './create'
 import z from 'zod'
 import { nearby } from './nearby'
 import { search } from './search'
+import { verifyUserRole } from '@/http/middlewares/verify-user-role'
 
 export const gymsRoutes: FastifyPluginAsyncZod = async (app) => {
   app.addHook('onRequest', verifyJWT)
@@ -71,6 +72,7 @@ export const gymsRoutes: FastifyPluginAsyncZod = async (app) => {
   app.post(
     '/gyms',
     {
+      onRequest: [verifyUserRole('ADMIN')],
       schema: {
         tags: ['Gyms'],
         operationId: 'gyms',

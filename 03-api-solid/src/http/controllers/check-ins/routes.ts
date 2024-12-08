@@ -6,6 +6,7 @@ import { history } from './history'
 import { metrics } from './metrics'
 import { verifyJWT } from '@/http/middlewares/verify-jwt'
 import z from 'zod'
+import { verifyUserRole } from '@/http/middlewares/verify-user-role'
 
 export const checkInsRoutes: FastifyPluginAsyncZod = async (app) => {
   app.addHook('onRequest', verifyJWT)
@@ -82,6 +83,7 @@ export const checkInsRoutes: FastifyPluginAsyncZod = async (app) => {
   app.patch(
     '/check-ins/:checkInId/validate',
     {
+      onRequest: [verifyUserRole('ADMIN')],
       schema: {
         tags: ['Check Ins'],
         operationId: 'checkIns',
