@@ -1,8 +1,9 @@
-import { register } from '@/http/controllers/register'
+import { register } from '@/http/controllers/users/register'
 import { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
 import z from 'zod'
-import { authenticate } from './controllers/authenticate'
-import { profile } from './controllers/profile'
+import { authenticate } from './authenticate'
+import { profile } from './profile'
+import { verifyJWT } from '../../middlewares/verify-jwt'
 
 export const appRoutes: FastifyPluginAsyncZod = async (app) => {
   app.post(
@@ -37,7 +38,7 @@ export const appRoutes: FastifyPluginAsyncZod = async (app) => {
           password: z.string().min(6),
         }),
         response: {
-          200: z.object({}),
+          200: z.object({ token: z.string() }),
           400: z.object({ message: z.string() }),
         },
       },
@@ -49,6 +50,7 @@ export const appRoutes: FastifyPluginAsyncZod = async (app) => {
   app.get(
     '/me',
     {
+      onRequest: [verifyJWT],
       schema: {
         tags: ['me'],
         operationId: 'meUser',
